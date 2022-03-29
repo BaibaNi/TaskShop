@@ -1,0 +1,16 @@
+<h1>{{ product.name }}</h1>
+
+<div >
+    <form method='post' action=''>
+
+        <p >Price: <b>{{ product.price }}</b> EUR</p>
+        <p >Available quantity: {{ product.quantity }}</p>
+        <p >Created at: {{ product.created_at }}</p>
+
+        <td>
+            <input type='number' name='quantity' value='1'/>
+        </td>
+        <button>BUY</button>
+    </form>
+
+</div>
