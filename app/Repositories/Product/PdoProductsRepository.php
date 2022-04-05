@@ -3,6 +3,7 @@ namespace App\Repositories\Product;
 
 use App\Database;
 use App\Models\Product;
+use App\Models\Purchase;
 
 class PdoProductsRepository implements ProductsRepository
 {
@@ -32,6 +33,15 @@ class PdoProductsRepository implements ProductsRepository
                 'name' => $product->getName(),
                 'price' => $product->getPrice(),
                 'quantity' => $product->getQuantity()
+            ]);
+    }
+
+    public function buyProduct(Purchase $purchase): void
+    {
+        Database::connection()
+            ->insert('product_purchases', [
+                'product_id' => $purchase->getProductId(),
+                'quantity' => $purchase->getQuantity()
             ]);
     }
 }

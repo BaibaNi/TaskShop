@@ -3,10 +3,12 @@ namespace App\Controllers;
 
 use App\Redirect;
 use App\View;
-use App\Services\Product\Add\AddProductRequest;
-use App\Services\Product\Add\AddProductService;
+use App\Services\Product\Buy\BuyProductRequest;
+use App\Services\Product\Buy\BuyProductService;
 use App\Services\Product\Show\ShowProductRequest;
 use App\Services\Product\Show\ShowProductService;
+use App\Services\Product\Add\AddProductRequest;
+use App\Services\Product\Add\AddProductService;
 use App\Services\Product\Index\IndexProductService;
 use Psr\Container\ContainerInterface;
 
@@ -57,6 +59,19 @@ class ProductsController
         );
         return new Redirect('/products');
 
+    }
+
+    public function buy(array $vars): Redirect
+    {
+        $productId = (int) $vars['id'];
+
+        $service = $this->container->get(BuyProductService::class);
+        $service->execute(new BuyProductRequest(
+            $productId,
+            $_POST['quantity']
+        ));
+
+        return new Redirect("/products/{$productId}/buy");
     }
 
 }

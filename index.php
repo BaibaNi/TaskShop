@@ -1,19 +1,24 @@
 <?php
 
 require_once "vendor/autoload.php";
+session_start();
 
 use App\Redirect;
 use App\Repositories\Product\PdoProductsRepository;
+use App\Repositories\Product\ProductsRepository;
+use App\Repositories\Purchase\PdoPurchasesRepository;
+use App\Repositories\Purchase\PurchasesRepository;
 use App\View;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use App\Controllers\ProductsController;
-use App\Repositories\Product\ProductsRepository;
+use App\Controllers\PurchasesController;
 
 
 $builder = new DI\ContainerBuilder();
 $builder->addDefinitions([
-    ProductsRepository::class => DI\create(PdoProductsRepository::class)
+    ProductsRepository::class => DI\create(PdoProductsRepository::class),
+    PurchasesRepository::class => DI\create(PdoPurchasesRepository::class)
 ]);
 $container = $builder->build();
 
@@ -23,6 +28,10 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/products/{id:\d+}', [ProductsController::class, 'show']);
     $r->addRoute('GET', '/products/add', [ProductsController::class, 'addForm']);
     $r->addRoute('POST', '/products', [ProductsController::class, 'add']);
+    $r->addRoute('POST', '/products/{id:\d+}/buy', [ProductsController::class, 'buy']);
+
+    $r->addRoute('GET', '/products/{id:\d+}/buy', [PurchasesController::class, 'show']);
+    $r->addRoute('POST', '/products/{id:\d+}/pay', [PurchasesController::class, 'pay']);
 
 
 });

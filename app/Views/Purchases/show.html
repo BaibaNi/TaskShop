@@ -1,0 +1,70 @@
+<h1>{{ product.name }}</h1>
+
+<div >
+    <p >Unit price: <b>{{ product.price }}</b> EUR</p>
+    <p >Purchased quantity: {{ purchase.quantity }} pcs</p>
+    <p >TOTAL PRICE: {{ product.price * purchase.quantity }} EUR</p>
+</div>
+
+<br>
+
+<p>Select payment method</p>
+
+<div>
+    <form method='post' action='/products/{{ product.id }}/pay'>
+
+        <div>
+            <label for="paymentMethod">Select Payment Method:</label>
+            <select id="paymentMethod" name="paymentMethod" >
+                <option value="">Select Payment Method</option>
+                <option value="paypal">PayPal Payment</option>
+                <option value="credit_card">Credit Card Payment</option>
+            </select>
+        </div>
+        <br>
+    </form>
+
+        <div>
+            <form id="form-paypal" class="type-form" style="display: none">
+                <div class="payment">
+                    <label for="email">Email</label>
+                    <input type="text" id="email">
+                </div>
+            </form>
+            <br>
+            <form id="form-credit_card" class="type-form" style="display: none">
+                <div class="payment">
+                    <label for="card_number">Card Number</label>
+                    <input type="text" id="card_number">
+                    <label for="cvc">CVC</label>
+                    <input type="text" id="cvc">
+                    <label for="owner">Card owner name and surname</label>
+                    <input type="text" id="owner">
+                </div>
+            </form>
+        </div>
+
+        <button type="submit">PAY</button>
+
+
+
+</div>
+
+
+
+<!--{% block scripts %}-->
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $("#paymentMethod").change(function() {
+        let type = this.value; //get state
+        $(".type-form").hide(); //hide all forms
+        $("#form-" + type).show(); //show only related form
+    });
+
+</script>
+
+<!--{% endblock %}-->
